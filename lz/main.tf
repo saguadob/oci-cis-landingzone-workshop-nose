@@ -19,7 +19,7 @@ module "lz" {
   # existing_enclosing_compartment_ocid = "ocid1.compartment.oc1..aaaaaaaach4vwr7x2vhj4pnz3yolnsjwsoj4a7eflsuz42dgznfb5ctsjbfa"
   env_advanced_options           = true
   policies_in_root_compartment   = "CREATE"
-  vcn_cidrs                      = ["10.0.1.0/24", "10.0.2.0/24"]
+  vcn_cidrs                      = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   exacs_vcn_cidrs                = []
   hub_spoke_architecture         = true
   hs_advanced_options            = true
