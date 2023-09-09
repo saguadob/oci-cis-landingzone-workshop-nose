@@ -20,6 +20,7 @@ cd oci-cis-landingzone-workshop
 git config user.name "$(gh api user -q .login)"
 git config user.email "$(gh api user/public_emails -q first.email)"
 gh repo set-default "$(gh api user -q .login)/oci-cis-landingzone-workshop"
+git remote rm upstream
 ```
 
 And the a initial Resource Manager stack is created
