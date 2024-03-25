@@ -80,7 +80,7 @@ jobs:
         uses: oracle-actions/run-oci-cli-command@v1.1.1
         id: run-tf-plan
         with:
-          command: 'resource-manager job create-plan-job --stack-id ${{ fromJson(steps.create-gh-pr-stack.outputs.output) }} --display-name "plan-gh-pr-${{ github.event.number }}-action-${{ github.run_id }}" --wait-for-state SUCCEEDED --wait-for-state FAILED --wait-for-state CANCELED --max-wait-seconds 600 --wait-interval-seconds 10'
+          command: 'resource-manager job create-plan-job --stack-id ${{ fromJson(steps.create-gh-pr-stack.outputs.output) }} --display-name "plan-gh-pr-${{ github.event.number }}-action-${{ github.run_id }}" --wait-for-state SUCCEEDED --wait-for-state FAILED --wait-for-state CANCELED --max-wait-seconds 600 --wait-interval-seconds 10 --raw-output'
           query: "data.id"
           silent: false
       
@@ -98,7 +98,7 @@ jobs:
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "OCI speculative terraform plan \n https://cloud.oracle.com/resourcemanager/jobs/${{ fromJson(steps.run-tf-plan.outputs.output) }}"
+          PLAN: "OCI speculative terraform plan \n https://cloud.oracle.com/resourcemanager/jobs/${{ steps.run-tf-plan.outputs.raw_output }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -125,14 +125,10 @@ jobs:
             </details>
   
             #### Terraform Plan 📖\`${{ steps.run-tf-plan.outcome }}\`
-  
-            <details><summary>Show Plan</summary>
-  
+            
             \`\`\`\n
             ${process.env.PLAN}
             \`\`\`
-  
-            </details>
   
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
   
